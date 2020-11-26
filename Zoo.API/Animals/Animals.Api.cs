@@ -11,8 +11,8 @@ namespace Zoo.API.Animals
     /// </summary>
     public static class AnimalsApi
     {
-        public static void InitAnimals() => AllAnimals.InitAnimalsList();
-        public static List<BaseAnimal> GetAnimals() => AllAnimals.Animals;
+        public static void InitAnimals() => AnimalMockDB.InitAnimalsList();
+        public static List<BaseAnimal> GetAnimals() => AnimalMockDB.Animals;
         public static List<BaseAnimal> GetAnimalsOfType<T>(T type)
         {
             List<BaseAnimal> AllAnimals = GetAnimals();
@@ -23,7 +23,7 @@ namespace Zoo.API.Animals
         }
         public static void AddAnimal(BaseAnimal animal)
         {
-            AllAnimals.Animals.Add(animal);
+            AnimalMockDB.Animals.Add(animal);
         }
     }
 }

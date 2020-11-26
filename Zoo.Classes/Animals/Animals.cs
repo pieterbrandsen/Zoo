@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Zoo.Classes.Animals
 {
-    public class AllAnimals
+    public class AnimalMockDB
     {
         public static void InitAnimalsList() => Animals = new List<BaseAnimal>();
         public static List<BaseAnimal> Animals { get; set; }
