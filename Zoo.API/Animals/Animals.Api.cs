@@ -108,11 +108,11 @@ namespace Zoo.API.Animals
                     cs.WriteByte((byte)data);
 
 
+                File.Delete(inputFile);
                 fsIn.Close();
                 cs.Close();
                 fsCrypt.Close();
 
-                File.Delete(inputFile);
             }
             catch
             {
@@ -149,11 +149,11 @@ namespace Zoo.API.Animals
                 while ((data = cs.ReadByte()) != -1)
                     fsOut.WriteByte((byte)data);
 
+                File.Delete(inputFile);
                 fsOut.Close();
                 cs.Close();
                 fsCrypt.Close();
 
-                File.Delete(inputFile);
             }
         }
     }
