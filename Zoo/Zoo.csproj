@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zoo.API\Zoo.API.csproj" />
-    <ProjectReference Include="..\Zoo.Classes\Zoo.Classes.csproj" />
+    <ProjectReference Include="..\Zoo.Models\Zoo.Models.csproj" />
   </ItemGroup>
 
 </Project>
