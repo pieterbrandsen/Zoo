@@ -34,6 +34,10 @@ namespace Zoo
         private void Label_Loaded(object sender, RoutedEventArgs e)
         {
             AnimalsApi.AddAnimal(new Lion());
+            AnimalsApi.AddAnimal(new Lion());
+            AnimalsApi.AddAnimal(new Lion());
+            AnimalsApi.AddAnimal(new Lion());
+            AnimalsApi.AddAnimal(new Lion());
             List<BaseAnimal> animals = AnimalsApi.GetAnimals();
         }
     }
