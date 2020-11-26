@@ -33,10 +33,6 @@ namespace Zoo
             AnimalsApi.AddAnimal(new Elephant());
             AnimalsApi.AddAnimal(new Lion());
             List<BaseAnimal> animals = AnimalsApi.GetAnimals();
-            animals[0].SetEnergy(100);
-            animals[1].SetEnergy(133300);
-            var energy = animals[0].GetEnergy();
-            var energy2 = animals[1].GetType();
         }
     }
 }

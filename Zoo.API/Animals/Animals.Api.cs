@@ -9,10 +9,17 @@ namespace Zoo.API.Animals
     {
         public static void InitAnimals() => AllAnimals.InitAnimalsList();
         public static List<BaseAnimal> GetAnimals() => AllAnimals.Animals;
+        public static List<BaseAnimal> GetAnimalsOfType<T>(T type)
+        {
+            List<BaseAnimal> AllAnimals = GetAnimals();
 
+            List<BaseAnimal> DesiredAnimalTypeList = AllAnimals.FindAll(s => s.GetType() == type.GetType());
+
+            return DesiredAnimalTypeList;
+        }
         public static void AddAnimal(BaseAnimal animal)
         {
             AllAnimals.Animals.Add(animal);
-        } 
+        }
     }
 }
