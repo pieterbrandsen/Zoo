@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
-namespace Zoo.Constants.Animals
+namespace Zoo.Constants
 {
     /// <summary>
     /// All Animal types
@@ -12,5 +14,10 @@ namespace Zoo.Constants.Animals
         public const string MONKEY = "Monkey";
         public const string LION = "Lion";
         public const string ELEPHANT = "Elephant";
+    }
+
+    public class AnimalDbConst
+    {
+        public static string JsonFilePath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDb.txt";
     }
 }

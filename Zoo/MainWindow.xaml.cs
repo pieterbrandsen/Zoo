@@ -16,9 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Zoo.API.Animals;
-using Zoo.Constants.Animals;
 using Zoo.Models.Animals;
-using Path = System.IO.Path;
 
 namespace Zoo
 {
@@ -30,12 +28,11 @@ namespace Zoo
         public MainWindow()
         {
             InitializeComponent();
-
+            AnimalsApi.InitAnimals();
         }
 
         private void Label_Loaded(object sender, RoutedEventArgs e)
         {
-            AnimalsApi.InitAnimals();
             AnimalsApi.AddAnimal(new Lion());
             List<BaseAnimal> animals = AnimalsApi.GetAnimals();
         }
