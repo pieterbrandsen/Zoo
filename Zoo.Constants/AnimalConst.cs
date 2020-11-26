@@ -19,5 +19,6 @@ namespace Zoo.Constants
     public class AnimalDbConst
     {
         public static string JsonFilePath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDb.txt";
+        public static string JsonEncryptedFilePath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDbEncrypted.txt";
     }
 }
