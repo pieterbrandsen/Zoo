@@ -17,7 +17,8 @@ namespace Zoo.API.Animals
     /// </summary>
     public static class AnimalsApi
     {
-        public static void InitAnimals() {
+        public static void InitAnimals()
+        {
             if (!File.Exists(AnimalDbConst.JsonFilePath))
             {
                 List<BaseAnimal> animals = new List<BaseAnimal>();
@@ -26,7 +27,7 @@ namespace Zoo.API.Animals
             }
             EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
         }
-        public static List<BaseAnimal> GetAnimals() 
+        public static List<BaseAnimal> GetAnimals()
         {
             DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
 
@@ -87,7 +88,7 @@ namespace Zoo.API.Animals
 
             try
             {
-                string password = @"myKey123"; // Your Key Here
+                string password = @"akey123"; // Your Key Here
                 UnicodeEncoding UE = new UnicodeEncoding();
                 byte[] key = UE.GetBytes(password);
 
@@ -129,7 +130,7 @@ namespace Zoo.API.Animals
         {
 
             {
-                string password = @"myKey123"; // Your Key Here
+                string password = @"akey123"; // Your Key Here
 
                 UnicodeEncoding UE = new UnicodeEncoding();
                 byte[] key = UE.GetBytes(password);
