@@ -10,20 +10,20 @@ namespace Zoo.Classes.Animals
         public static List<BaseAnimal> Animals { get; set; }
     }
 
-    // Monkey
-    public class Monkey : BaseAnimal
+    // Monkey Animal
+    public sealed class Monkey : BaseAnimal
     {
          
     }
 
-    // Lion
-    public class Lion : BaseAnimal
+    // Lion Animal
+    public sealed class Lion : BaseAnimal
     {
 
     }
 
-    // Elephant
-    public class Elephant : BaseAnimal
+    // Elephant Animal
+    public sealed class Elephant : BaseAnimal
     {
 
     }

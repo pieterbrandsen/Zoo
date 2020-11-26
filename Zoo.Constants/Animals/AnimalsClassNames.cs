@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Zoo.Constants.Animals
 {
-    public class AnimalsClassNames
+    /// <summary>
+    /// All Animal types
+    /// </summary>
+    public class AnimalsTypesNames
     {
         public const string MONKEY = "Monkey";
         public const string LION = "Lion";

@@ -5,6 +5,10 @@ using Zoo.Classes.Animals;
 
 namespace Zoo.API.Animals
 {
+    /// <summary>
+    /// Animal Api
+    /// This is used to get all animal related logic
+    /// </summary>
     public static class AnimalsApi
     {
         public static void InitAnimals() => AllAnimals.InitAnimalsList();
