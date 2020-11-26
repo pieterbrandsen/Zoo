@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
-namespace Zoo.Classes.Animals
+namespace Zoo.Models.Animals
 {
-    public class AnimalMockDB
-    {
-        public static void InitAnimalsList() => Animals = new List<BaseAnimal>();
-        public static List<BaseAnimal> Animals { get; set; }
-    }
-
     // Monkey Animal
     public sealed class Monkey : BaseAnimal
     {

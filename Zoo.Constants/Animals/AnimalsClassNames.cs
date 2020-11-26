@@ -7,7 +7,7 @@ namespace Zoo.Constants.Animals
     /// <summary>
     /// All Animal types
     /// </summary>
-    public class AnimalsTypesNames
+    public class AnimalsTypesNamesConst
     {
         public const string MONKEY = "Monkey";
         public const string LION = "Lion";
