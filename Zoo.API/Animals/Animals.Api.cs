@@ -7,10 +7,8 @@ namespace Zoo.API.Animals
 {
     public static class AnimalsApi
     {
-        public static IList<BaseAnimal> GetAnimals()
-        {
-            return AllAnimals.Animals;
-        }
+        public static void InitAnimals() => AllAnimals.InitAnimalsList();
+        public static List<BaseAnimal> GetAnimals() => AllAnimals.Animals;
 
         public static void AddAnimal(BaseAnimal animal)
         {

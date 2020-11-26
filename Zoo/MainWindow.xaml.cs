@@ -29,8 +29,14 @@ namespace Zoo
 
         private void Label_Loaded(object sender, RoutedEventArgs e)
         {
+            AnimalsApi.InitAnimals();   
             AnimalsApi.AddAnimal(new Elephant());
-            IList<BaseAnimal> animals = AnimalsApi.GetAnimals();
+            AnimalsApi.AddAnimal(new Lion());
+            List<BaseAnimal> animals = AnimalsApi.GetAnimals();
+            animals[0].SetEnergy(100);
+            animals[1].SetEnergy(133300);
+            var energy = animals[0].GetEnergy();
+            var energy2 = animals[1].GetType();
         }
     }
 }

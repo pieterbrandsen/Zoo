@@ -4,9 +4,10 @@ using System.Text;
 
 namespace Zoo.Classes.Animals
 {
-    public static class AllAnimals
+    public class AllAnimals
     {
-        public static IList<BaseAnimal> Animals { get; set; }
+        public static void InitAnimalsList() => Animals = new List<BaseAnimal>();
+        public static List<BaseAnimal> Animals { get; set; }
     }
 
     // Monkey
