@@ -7,7 +7,9 @@ using Zoo.Constants;
 using Zoo.Models.Animals;
 using System.Security.AccessControl;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows;
+using Zoo.Helper.Animals;
 
 namespace Zoo.API.Animals
 {
@@ -17,33 +19,33 @@ namespace Zoo.API.Animals
     /// </summary>
     public static class AnimalsApi
     {
-        public static void InitAnimals()
+        public static async void InitAnimals()
         {
-            if (!File.Exists(AnimalDbConst.JsonFilePath))
+            if (!File.Exists(AnimalDbConst.JsonFilePath) && !File.Exists(AnimalDbConst.JsonEncryptedFilePath))
             {
                 List<BaseAnimal> animals = new List<BaseAnimal>();
                 string jsonArray = JsonConvert.SerializeObject(animals, Formatting.Indented);
                 File.WriteAllText(AnimalDbConst.JsonFilePath, jsonArray);
+            await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
             }
-            EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
         }
-        public static List<BaseAnimal> GetAnimals()
+        public static async Task<List<BaseAnimal>> GetAnimals()
         {
-            DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
+            await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
 
             // Get the file from local machine
-            string JsonFile = File.ReadAllText(AnimalDbConst.JsonFilePath);
-            List<BaseAnimal> animalList = JsonConvert.DeserializeObject<List<BaseAnimal>>(JsonFile, new JsonSerializerSettings
+            string jsonFile = File.ReadAllText(AnimalDbConst.JsonFilePath);
+            List<BaseAnimal> animalList = JsonConvert.DeserializeObject<List<BaseAnimal>>(jsonFile, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 NullValueHandling = NullValueHandling.Ignore,
             });
-            EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
+            await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
             return animalList;
         }
-        public static void UpdateAnimals(List<BaseAnimal> animals)
+        public static async void UpdateAnimals(List<BaseAnimal> animals)
         {
-            DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
+            await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
             List<BaseAnimal> animalList = animals;
 
             JsonSerializer serializer = new JsonSerializer();
@@ -58,103 +60,21 @@ namespace Zoo.API.Animals
                 serializer.Serialize(writer, animalList, typeof(BaseAnimal));
             }
 
-            EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
+            await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
         }
         public static List<BaseAnimal> GetAnimalsOfType<T>(T type)
         {
-            List<BaseAnimal> AllAnimals = GetAnimals();
+            List<BaseAnimal> allAnimals = GetAnimals().Result;
 
-            List<BaseAnimal> DesiredAnimalTypeList = AllAnimals.FindAll(s => s.GetType() == type.GetType());
+            List<BaseAnimal> desiredAnimalTypeList = allAnimals.FindAll(s => s.GetType() == type.GetType());
 
-            return DesiredAnimalTypeList;
+            return desiredAnimalTypeList;
         }
         public static void AddAnimal(BaseAnimal animal)
         {
-            List<BaseAnimal> AllAnimals = GetAnimals();
-            AllAnimals.Add(animal);
-
-            UpdateAnimals(AllAnimals);
-        }
-
-        ///<summary>
-        /// Steve Lydford - 12/05/2008.
-        ///
-        /// Encrypts a file using Rijndael algorithm.
-        ///</summary>
-        ///<param name="inputFile"></param>
-        ///<param name="outputFile"></param>
-        private static void EncryptFile(string inputFile, string outputFile)
-        {
-
-            try
-            {
-                string password = @"akey123"; // Your Key Here
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
-
-                string cryptFile = outputFile;
-                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateEncryptor(key, key),
-                    CryptoStreamMode.Write);
-
-                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
-
-                int data;
-                while ((data = fsIn.ReadByte()) != -1)
-                    cs.WriteByte((byte)data);
-
-
-                File.Delete(inputFile);
-                fsIn.Close();
-                cs.Close();
-                fsCrypt.Close();
-
-            }
-            catch
-            {
-                MessageBox.Show("Encryption failed!", "Error");
-            }
-        }
-        ///<summary>
-        /// Steve Lydford - 12/05/2008.
-        ///
-        /// Decrypts a file using Rijndael algorithm.
-        ///</summary>
-        ///<param name="inputFile"></param>
-        ///<param name="outputFile"></param>
-        private static void DecryptFile(string inputFile, string outputFile)
-        {
-
-            {
-                string password = @"akey123"; // Your Key Here
-
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
-
-                FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateDecryptor(key, key),
-                    CryptoStreamMode.Read);
-
-                FileStream fsOut = new FileStream(outputFile, FileMode.Create);
-
-                int data;
-                while ((data = cs.ReadByte()) != -1)
-                    fsOut.WriteByte((byte)data);
-
-                File.Delete(inputFile);
-                fsOut.Close();
-                cs.Close();
-                fsCrypt.Close();
-
-            }
+            List<BaseAnimal> allAnimals = GetAnimals().Result;
+            allAnimals.Add(animal);
+            UpdateAnimals(allAnimals);
         }
     }
 }

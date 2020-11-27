@@ -38,7 +38,7 @@ namespace Zoo
             AnimalsApi.AddAnimal(new Lion());
             AnimalsApi.AddAnimal(new Lion());
             AnimalsApi.AddAnimal(new Lion());
-            List<BaseAnimal> animals = AnimalsApi.GetAnimals();
+            List<BaseAnimal> animals = AnimalsApi.GetAnimals().Result;
         }
     }
 }
