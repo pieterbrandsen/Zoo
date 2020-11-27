@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace Zoo.Constants
 {
     /// <summary>
-    /// All Animal types
+    ///     All Animal types
     /// </summary>
     public class AnimalsTypesNamesConst
     {
@@ -18,7 +15,10 @@ namespace Zoo.Constants
 
     public class AnimalDbConst
     {
-        public static string JsonFilePath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDb2.json";
-        public static string JsonEncryptedFilePath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDbEncrypted2.json";
+        public static string JsonFilePath =
+            Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDb2.json";
+
+        public static string JsonEncryptedFilePath =
+            Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDbEncrypted2.json";
     }
 }

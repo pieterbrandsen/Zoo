@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Zoo.Models.Animals;
+﻿using System.Collections.Generic;
 
 namespace Zoo.Models.Animals
 {

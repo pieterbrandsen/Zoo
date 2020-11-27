@@ -1,21 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using Zoo.Constants;
-using Zoo.Models.Animals;
-using System.Security.AccessControl;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using System.Windows;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Zoo.Constants;
 using Zoo.Helper.Animals;
+using Zoo.Models.Animals;
 
 namespace Zoo.API.Animals
 {
     /// <summary>
-    /// Animal Api
-    /// This is used to get all animal related logic
+    ///     Animal Api
+    ///     This is used to get all animal related logic
     /// </summary>
     public static class AnimalsApi
     {
@@ -23,23 +20,24 @@ namespace Zoo.API.Animals
         {
             if (!File.Exists(AnimalDbConst.JsonFilePath) && !File.Exists(AnimalDbConst.JsonEncryptedFilePath))
             {
-                List<BaseAnimal> animals = new List<BaseAnimal>();
-                string jsonArray = JsonConvert.SerializeObject(animals, Formatting.Indented);
-                File.WriteAllText(AnimalDbConst.JsonFilePath, jsonArray);
+                var animals = new List<BaseAnimal>();
+                var jsonArray = JsonConvert.SerializeObject(animals, Formatting.Indented);
+                await File.WriteAllTextAsync(AnimalDbConst.JsonFilePath, jsonArray);
                 await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
             }
         }
+
         public static async Task<List<BaseAnimal>> GetAnimals()
         {
             try
             {
                 await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
                 // Get the file from local machine
-                string jsonFile = File.ReadAllText(AnimalDbConst.JsonFilePath);
-                List<BaseAnimal> animalList = JsonConvert.DeserializeObject<List<BaseAnimal>>(jsonFile, new JsonSerializerSettings
+                var jsonFile = File.ReadAllText(AnimalDbConst.JsonFilePath);
+                var animalList = JsonConvert.DeserializeObject<List<BaseAnimal>>(jsonFile, new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.Auto,
-                    NullValueHandling = NullValueHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore
                 });
                 await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
                 return animalList;
@@ -51,20 +49,21 @@ namespace Zoo.API.Animals
                 throw;
             }
         }
+
         public static async void UpdateAnimals(List<BaseAnimal> animals)
         {
             try
             {
                 await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
-                List<BaseAnimal> animalList = animals;
+                var animalList = animals;
 
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Converters.Add(new Newtonsoft.Json.Converters.JavaScriptDateTimeConverter());
+                var serializer = new JsonSerializer();
+                serializer.Converters.Add(new JavaScriptDateTimeConverter());
                 serializer.NullValueHandling = NullValueHandling.Ignore;
                 serializer.TypeNameHandling = TypeNameHandling.Auto;
                 serializer.Formatting = Formatting.Indented;
 
-                using (StreamWriter sw = new StreamWriter(AnimalDbConst.JsonFilePath))
+                using (var sw = new StreamWriter(AnimalDbConst.JsonFilePath))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, animalList, typeof(BaseAnimal));
@@ -79,17 +78,19 @@ namespace Zoo.API.Animals
                 throw;
             }
         }
+
         public static List<BaseAnimal> GetAnimalsOfType<T>(T type)
         {
-            List<BaseAnimal> allAnimals = GetAnimals().Result;
+            var allAnimals = GetAnimals().Result;
 
-            List<BaseAnimal> desiredAnimalTypeList = allAnimals.FindAll(s => s.GetType() == type.GetType());
+            var desiredAnimalTypeList = allAnimals.FindAll(s => s.GetType() == type.GetType());
 
             return desiredAnimalTypeList;
         }
+
         public static void AddAnimal(BaseAnimal animal)
         {
-            List<BaseAnimal> allAnimals = GetAnimals().Result;
+            var allAnimals = GetAnimals().Result;
             allAnimals.Add(animal);
             UpdateAnimals(allAnimals);
         }
