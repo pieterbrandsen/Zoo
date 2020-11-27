@@ -26,41 +26,58 @@ namespace Zoo.API.Animals
                 List<BaseAnimal> animals = new List<BaseAnimal>();
                 string jsonArray = JsonConvert.SerializeObject(animals, Formatting.Indented);
                 File.WriteAllText(AnimalDbConst.JsonFilePath, jsonArray);
-            await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
+                await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
             }
         }
         public static async Task<List<BaseAnimal>> GetAnimals()
         {
-            await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
-
-            // Get the file from local machine
-            string jsonFile = File.ReadAllText(AnimalDbConst.JsonFilePath);
-            List<BaseAnimal> animalList = JsonConvert.DeserializeObject<List<BaseAnimal>>(jsonFile, new JsonSerializerSettings
+            try
             {
-                TypeNameHandling = TypeNameHandling.Auto,
-                NullValueHandling = NullValueHandling.Ignore,
-            });
-            await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
-            return animalList;
+                await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
+                // Get the file from local machine
+                string jsonFile = File.ReadAllText(AnimalDbConst.JsonFilePath);
+                List<BaseAnimal> animalList = JsonConvert.DeserializeObject<List<BaseAnimal>>(jsonFile, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto,
+                    NullValueHandling = NullValueHandling.Ignore,
+                });
+                await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
+                return animalList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("There was an error getting animals");
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public static async void UpdateAnimals(List<BaseAnimal> animals)
         {
-            await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
-            List<BaseAnimal> animalList = animals;
-
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Converters.Add(new Newtonsoft.Json.Converters.JavaScriptDateTimeConverter());
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-            serializer.TypeNameHandling = TypeNameHandling.Auto;
-            serializer.Formatting = Formatting.Indented;
-
-            using (StreamWriter sw = new StreamWriter(AnimalDbConst.JsonFilePath))
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            try
             {
-                serializer.Serialize(writer, animalList, typeof(BaseAnimal));
-            }
+                await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
+                List<BaseAnimal> animalList = animals;
 
-            await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Converters.Add(new Newtonsoft.Json.Converters.JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+                serializer.TypeNameHandling = TypeNameHandling.Auto;
+                serializer.Formatting = Formatting.Indented;
+
+                using (StreamWriter sw = new StreamWriter(AnimalDbConst.JsonFilePath))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, animalList, typeof(BaseAnimal));
+                }
+
+                await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("There was an error updating animal list");
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public static List<BaseAnimal> GetAnimalsOfType<T>(T type)
         {
