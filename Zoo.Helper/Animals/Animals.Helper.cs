@@ -18,9 +18,6 @@ namespace Zoo.Helper.Animals
         /// <remarks>NB: "Padding is invalid and cannot be removed." is the Universal CryptoServices error.  Make sure the password, salt and iterations are correct before getting nervous.</remarks>
         /// <param name="sourceFilename">The full path and name of the file to be decrypted.</param>
         /// <param name="destinationFilename">The full path and name of the file to be output.</param>
-        /// <param name="password">The password for the decryption.</param>
-        /// <param name="salt">The salt to be applied to the password.</param>
-        /// <param name="iterations">The number of iterations Rfc2898DeriveBytes should use before generating the key and initialization vector for the decryption.</param>
         public static Task DecryptFile(string sourceFilename, string destinationFilename)
         {
             string password = "141342421";
@@ -64,9 +61,6 @@ namespace Zoo.Helper.Animals
         /// <summary>Encrypt a file.</summary>
         /// <param name="sourceFilename">The full path and name of the file to be encrypted.</param>
         /// <param name="destinationFilename">The full path and name of the file to be output.</param>
-        /// <param name="password">The password for the encryption.</param>
-        /// <param name="salt">The salt to be applied to the password.</param>
-        /// <param name="iterations">The number of iterations Rfc2898DeriveBytes should use before generating the key and initialization vector for the decryption.</param>
         public static Task EncryptFile(string sourceFilename, string destinationFilename)
         {
             string password = "141342421";
