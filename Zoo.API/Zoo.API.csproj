@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zoo.Constants\Zoo.Constants.csproj" />
+    <ProjectReference Include="..\Zoo.Helper\Zoo.Helper.csproj" />
     <ProjectReference Include="..\Zoo.Models\Zoo.Models.csproj" />
   </ItemGroup>
 
