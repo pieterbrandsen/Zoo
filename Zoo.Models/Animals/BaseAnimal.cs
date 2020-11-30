@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Zoo.Models.Animals
 {
-        [Serializable]
     public abstract class BaseAnimal
     {
-        private string Name { get; set; }
+        public string Name { get; set; }
 
-        private int Energy { get; set; }
+        public int Energy { get; set; }
 
         // Name of animal
         public string GetName()
@@ -48,5 +48,16 @@ namespace Zoo.Models.Animals
         // Use Energy function
         // This will use <EnergyAmount> energy and remove it from the animal
         public abstract void UseEnergy(int energyAmount);
+    }
+
+    public class AnimalDb
+    {
+        public List<AnimalDbFields> List {get;set;}
+
+    }
+    public class AnimalDbFields
+    {
+        public string Name { get; set; }
+        public int Energy { get; set; }
     }
 }

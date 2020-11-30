@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using Zoo.Constants;
 using Zoo.Helper.Animals;
 using Zoo.Models.Animals;
@@ -55,19 +57,19 @@ namespace Zoo.API.Animals
             try
             {
                 await AnimalsHelper.DecryptFile(AnimalDbConst.JsonEncryptedFilePath, AnimalDbConst.JsonFilePath);
-                var animalList = animals;
 
-                var serializer = new JsonSerializer();
+                JsonSerializer serializer = new JsonSerializer();
                 serializer.Converters.Add(new JavaScriptDateTimeConverter());
                 serializer.NullValueHandling = NullValueHandling.Ignore;
                 serializer.TypeNameHandling = TypeNameHandling.Auto;
                 serializer.Formatting = Formatting.Indented;
 
-                using (var sw = new StreamWriter(AnimalDbConst.JsonFilePath))
+                using (StreamWriter sw = new StreamWriter(AnimalDbConst.JsonFilePath))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, animalList, typeof(BaseAnimal));
+                    serializer.Serialize(writer, animals, typeof(BaseAnimal));
                 }
+
 
                 await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
             }
