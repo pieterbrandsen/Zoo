@@ -23,8 +23,10 @@ namespace Zoo
             AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
             AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
             AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
-            var animals = AnimalsApi.GetAllAliveAnimals(null);
-            var animals2 = AnimalsApi.GetAllAliveAnimals(new Monkey());
+            var animals = AnimalsApi.GetAliveAnimals(null);
+            var animals2 = AnimalsApi.GetAliveAnimals(new Monkey());
+
+            AnimalsApi.RemoveDeadAnimals();
 
             Label.Content = animals.Count();
         }

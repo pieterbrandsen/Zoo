@@ -97,7 +97,7 @@ namespace Zoo.API.Animals
             UpdateAnimals(allAnimals);
         }
 
-        public static List<BaseAnimal> GetAllAliveAnimals(BaseAnimal filterType)
+        public static List<BaseAnimal> GetAliveAnimals(BaseAnimal filterType)
         {
             List<BaseAnimal> animals;
 
@@ -107,12 +107,49 @@ namespace Zoo.API.Animals
             }
             else
             {
-                animals = GetAnimals().Result; 
+                animals = GetAnimals().Result;
             }
 
             animals = animals.FindAll(a => a.GetEnergy() > 0);
 
             return animals;
+        }
+
+        public static List<BaseAnimal> GetDeadAnimals(BaseAnimal filterType)
+        {
+            List<BaseAnimal> animals;
+
+            if (filterType != null)
+            {
+                animals = GetAnimalsOfType(filterType);
+            }
+            else
+            {
+                animals = GetAnimals().Result;
+            }
+
+            animals = animals.FindAll(a => a.GetEnergy() <= 0);
+
+            return animals;
+        }
+
+        public static void RemoveDeadAnimals()
+        {
+            List<BaseAnimal> deadAnimals = GetDeadAnimals(null);
+
+            foreach (var deadAnimal in deadAnimals)
+            {
+                List<BaseAnimal> animals = GetAnimals().Result;
+                for (int i = 0; i < animals.Count; i++)
+                {
+                    if (animals[i].GetName() == deadAnimal.GetName())
+                    {
+                        animals.RemoveAt(i);
+                        break;
+                    }
+                }
+                UpdateAnimals(animals);
+            }
         }
     }
 }
