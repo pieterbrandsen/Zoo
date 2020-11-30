@@ -1,26 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
-namespace Zoo.Classes.Animals
+namespace Zoo.Models.Animals
 {
     public abstract class BaseAnimal
     {
+        public string Name { get; set; }
+
+        public int Energy { get; set; }
+
         // Name of animal
-        public string GetName() => Name;
-        public string SetName(string newName) => Name = newName;
-        private string Name { get; set; }
+        public string GetName()
+        {
+            return Name;
+        }
+
+        protected void SetName(string newName)
+        {
+            Name = newName;
+        }
 
         // Energy amount of animal
-        public int GetEnergy() => Energy;
-        public int SetEnergy(int newEnergy) => Energy = newEnergy;
-        public int AddEnergy(int newEnergy) => Energy += newEnergy;
-        public int RemoveEnergy(int newEnergy) => Energy -= newEnergy;
-        private int Energy { get; set; }
+        public int GetEnergy()
+        {
+            return Energy;
+        }
+
+        protected void SetEnergy(int newEnergy)
+        {
+            Energy = newEnergy;
+        }
+
+        protected int AddEnergy(int newEnergy)
+        {
+            return Energy += newEnergy;
+        }
+
+        protected int RemoveEnergy(int newEnergy)
+        {
+            return Energy -= newEnergy;
+        }
 
         // Eat function
-        // This will add 25 energy to the animal every time its called
-        public void Eat() => AddEnergy(25);
+        // This will add <EnergyAmount> energy to the animal every time its called
+        public abstract void Eat(int energyAmount);
+
+        // Use Energy function
+        // This will use <EnergyAmount> energy and remove it from the animal
+        public abstract void UseEnergy(int energyAmount);
+    }
+
+    public class AnimalDb
+    {
+        public List<AnimalDbFields> List {get;set;}
+
+    }
+    public class AnimalDbFields
+    {
+        public string Name { get; set; }
+        public int Energy { get; set; }
     }
 }

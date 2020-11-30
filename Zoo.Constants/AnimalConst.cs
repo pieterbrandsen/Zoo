@@ -1,0 +1,24 @@
+﻿using System.IO;
+using System.Reflection;
+
+namespace Zoo.Constants
+{
+    /// <summary>
+    ///     All Animal types
+    /// </summary>
+    public class AnimalsTypesNamesConst
+    {
+        public const string MONKEY = "Monkey";
+        public const string LION = "Lion";
+        public const string ELEPHANT = "Elephant";
+    }
+
+    public class AnimalDbConst
+    {
+        public static string JsonFilePath =
+            Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDb.json";
+
+        public static string JsonEncryptedFilePath =
+            Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/animalDbEncrypted.json";
+    }
+}

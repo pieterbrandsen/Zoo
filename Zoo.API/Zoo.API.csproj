@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Zoo.Constants\Zoo.Constants.csproj" />
+    <ProjectReference Include="..\Zoo.Helper\Zoo.Helper.csproj" />
     <ProjectReference Include="..\Zoo.Models\Zoo.Models.csproj" />
   </ItemGroup>
 
