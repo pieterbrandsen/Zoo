@@ -1,5 +1,8 @@
-﻿namespace Zoo.Models.Animals
+﻿using System;
+
+namespace Zoo.Models.Animals
 {
+        [Serializable]
     public abstract class BaseAnimal
     {
         private string Name { get; set; }
@@ -12,9 +15,9 @@
             return Name;
         }
 
-        public string SetName(string newName)
+        protected void SetName(string newName)
         {
-            return Name = newName;
+            Name = newName;
         }
 
         // Energy amount of animal
@@ -23,26 +26,27 @@
             return Energy;
         }
 
-        public int SetEnergy(int newEnergy)
+        protected void SetEnergy(int newEnergy)
         {
-            return Energy = newEnergy;
+            Energy = newEnergy;
         }
 
-        public int AddEnergy(int newEnergy)
+        protected int AddEnergy(int newEnergy)
         {
             return Energy += newEnergy;
         }
 
-        public int RemoveEnergy(int newEnergy)
+        protected int RemoveEnergy(int newEnergy)
         {
             return Energy -= newEnergy;
         }
 
         // Eat function
-        // This will add 25 energy to the animal every time its called
-        public void Eat()
-        {
-            AddEnergy(25);
-        }
+        // This will add <EnergyAmount> energy to the animal every time its called
+        public abstract void Eat(int energyAmount);
+
+        // Use Energy function
+        // This will use <EnergyAmount> energy and remove it from the animal
+        public abstract void UseEnergy(int energyAmount);
     }
 }
