@@ -85,7 +85,7 @@ namespace Zoo.API.Animals
         {
             var allAnimals = GetAnimals().Result;
 
-            var desiredAnimalTypeList = allAnimals.FindAll(s => s.GetType() == type.GetType());
+            var desiredAnimalTypeList = allAnimals.FindAll(s => s.GetType().Name == type.GetType().Name);
 
             return desiredAnimalTypeList;
         }
@@ -95,6 +95,22 @@ namespace Zoo.API.Animals
             var allAnimals = GetAnimals().Result;
             allAnimals.Add(animal);
             UpdateAnimals(allAnimals);
+        }
+
+        public static List<BaseAnimal> GetAllAliveAnimals(BaseAnimal filterType)
+        {
+            List<BaseAnimal> animals;
+
+            if (filterType != null)
+            {
+                animals = GetAnimalsOfType(filterType);
+            }
+            else
+            {
+                animals = GetAnimals().Result; 
+            }
+
+            return animals;
         }
     }
 }

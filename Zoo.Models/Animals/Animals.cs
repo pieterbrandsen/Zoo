@@ -3,6 +3,11 @@
     // Monkey Animal
     public sealed class Monkey : BaseAnimal
     {
+        public Monkey()
+        {
+
+        }
+
         public Monkey(int monkeyAmount)
         {
             SetName($"Monkey-{monkeyAmount}");
@@ -31,6 +36,10 @@
     // Elephant Animal
     public sealed class Elephant : BaseAnimal
     {
+        public Elephant()
+        {
+        }
+
         public Elephant(int elephantAmount)
         {
             SetName($"Elephant-{elephantAmount}");
