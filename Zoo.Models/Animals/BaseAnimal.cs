@@ -31,23 +31,23 @@ namespace Zoo.Models.Animals
             Energy = newEnergy;
         }
 
-        protected int AddEnergy(int newEnergy)
+        protected void AddEnergy(int newEnergy)
         {
-            return Energy += newEnergy;
+            Energy += newEnergy;
         }
 
-        protected int RemoveEnergy(int newEnergy)
+        protected void RemoveEnergy(int newEnergy)
         {
-            return Energy -= newEnergy;
+            Energy -= newEnergy;
         }
 
         // Eat function
         // This will add <EnergyAmount> energy to the animal every time its called
-        public abstract void Eat(int energyAmount);
+        public abstract void Eat();
 
         // Use Energy function
         // This will use <EnergyAmount> energy and remove it from the animal
-        public abstract void UseEnergy(int energyAmount);
+        public abstract void UseEnergy();
     }
 
     public class AnimalDb

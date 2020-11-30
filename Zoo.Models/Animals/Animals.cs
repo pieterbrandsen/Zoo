@@ -8,13 +8,13 @@
 
         }
 
-        public Monkey(int monkeyAmount)
+        public Monkey(int number)
         {
-            SetName($"Monkey-{monkeyAmount}");
+            SetName($"Monkey-{number}");
             SetEnergy(60);
         }
-        public override void Eat(int energyAmount) => AddEnergy(10);
-        public override void UseEnergy(int energyAmount) => RemoveEnergy(2);
+        public override void Eat() => AddEnergy(10);
+        public override void UseEnergy() => RemoveEnergy(2);
     }
 
     // Lion Animal
@@ -24,13 +24,13 @@
         {
         }
 
-        public Lion(int lionAmount)
+        public Lion(int number)
         {
-            SetName($"Lion-{lionAmount}");
+            SetName($"Lion-{number}");
             SetEnergy(100);
         }
-        public override void Eat(int energyAmount) => AddEnergy(25);
-        public override void UseEnergy(int energyAmount) => RemoveEnergy(10);
+        public override void Eat() => AddEnergy(25);
+        public override void UseEnergy() => RemoveEnergy(10);
     }
 
     // Elephant Animal
@@ -40,12 +40,12 @@
         {
         }
 
-        public Elephant(int elephantAmount)
+        public Elephant(int number)
         {
-            SetName($"Elephant-{elephantAmount}");
+            SetName($"Elephant-{number}");
             SetEnergy(100);
         }
-        public override void Eat(int energyAmount) => AddEnergy(50);
-        public override void UseEnergy(int energyAmount) => RemoveEnergy(5);
+        public override void Eat() => AddEnergy(50);
+        public override void UseEnergy() => RemoveEnergy(5);
     }
 }

@@ -6,8 +6,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Label x:Name="Label" Content="Label" HorizontalAlignment="Left" Margin="519,0,0,0" VerticalAlignment="Center"
-               Loaded="Label_Loaded" />
+        <Label x:Name="AllAnimalsLabel" Content="AnimalCount" HorizontalAlignment="Left" Margin="121,133,0,0" VerticalAlignment="Top" />
+        <Label Content="Monkeys" HorizontalAlignment="Left" Margin="237,133,0,0" VerticalAlignment="Top"/>
+        <Label Content="Lions" HorizontalAlignment="Left" Margin="315,133,0,0" VerticalAlignment="Top"/>
+        <Label Content="Elephants" HorizontalAlignment="Left" Margin="374,133,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="ElephantCount" HorizontalAlignment="Left" Margin="374,159,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="LionCount" HorizontalAlignment="Left" Margin="315,159,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="MonkeyCount" HorizontalAlignment="Left" Margin="237,162,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="AnimalCount" HorizontalAlignment="Left" Margin="121,162,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Label Content="Animals created" HorizontalAlignment="Left" Margin="121,0,0,0" VerticalAlignment="Center"/>
+        <Label Content="Animals died" HorizontalAlignment="Left" Margin="240,0,0,0" VerticalAlignment="Center"/>
+        <TextBlock x:Name="AnimalsCreated" HorizontalAlignment="Left" Margin="124,235,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="AnimalsDied" HorizontalAlignment="Left" Margin="240,235,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

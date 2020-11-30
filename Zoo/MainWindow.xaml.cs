@@ -1,6 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Zoo.API.Animals;
+using Zoo.Helper.Animals;
 using Zoo.Models.Animals;
 
 namespace Zoo
@@ -10,25 +16,62 @@ namespace Zoo
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int animalsDied;
+        private int animalsCreated;
         public MainWindow()
         {
             InitializeComponent();
-            AnimalsApi.InitAnimals();
+
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(0.1)
+            };
+            timer.Tick += Tick;
+            timer.Start();
         }
 
-        private void Label_Loaded(object sender, RoutedEventArgs e)
+        private async void Tick(object sender, EventArgs e)
         {
-            AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
-            AnimalsApi.AddAnimal(new Monkey(AnimalsApi.GetAnimalsOfType(new Monkey()).Count()));
-            AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
-            AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
-            AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
-            var animals = AnimalsApi.GetAliveAnimals(null);
-            var animals2 = AnimalsApi.GetAliveAnimals(new Monkey());
+            Random rnd = new Random();
 
-            AnimalsApi.RemoveDeadAnimals();
+            await AnimalsApi.InitAnimals();
 
-            Label.Content = animals.Count();
+            List<BaseAnimal> deadAnimals = await AnimalsApi.GetDeadAnimals(null);
+            animalsDied += deadAnimals.Count();
+            AnimalsDied.Text = animalsDied.ToString();
+            await AnimalsApi.RemoveDeadAnimals(deadAnimals);
+            List<BaseAnimal> animals = await AnimalsApi.GetAliveAnimals(null);
+            await AnimalsApi.AnimalEnergyUser(animals);
+
+
+
+            int rndNumber = rnd.Next(0, 99999);
+            int animalTypeNumber = rnd.Next(0, 3);
+            switch (animalTypeNumber)
+            {
+                case 0:
+                    await AnimalsApi.AddAnimal(new Monkey(rndNumber));
+                    break;
+                case 1:
+                    await AnimalsApi.AddAnimal(new Lion(rndNumber));
+                    break;
+                case 2:
+                    await AnimalsApi.AddAnimal(new Elephant(rndNumber));
+                    break;
+                default:
+                    break;
+            }
+            animalsCreated += 1;
+            AnimalsCreated.Text = animalsCreated.ToString();
+
+            AnimalCount.Text = animals.Count().ToString();
+
+            int monkeyCount = (await AnimalsApi.GetAnimalsOfType(new Monkey())).Count();
+            MonkeyCount.Text = monkeyCount.ToString();
+            int lionCount = (await AnimalsApi.GetAnimalsOfType(new Lion())).Count();
+            LionCount.Text = lionCount.ToString();
+            int elephantCount = (await AnimalsApi.GetAnimalsOfType(new Elephant())).Count();
+            ElephantCount.Text = elephantCount.ToString();
         }
     }
 }

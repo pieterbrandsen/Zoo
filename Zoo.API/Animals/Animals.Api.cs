@@ -18,7 +18,7 @@ namespace Zoo.API.Animals
     /// </summary>
     public static class AnimalsApi
     {
-        public static async void InitAnimals()
+        public static async Task<Task> InitAnimals()
         {
             if (!File.Exists(AnimalDbConst.JsonFilePath) && !File.Exists(AnimalDbConst.JsonEncryptedFilePath))
             {
@@ -27,6 +27,16 @@ namespace Zoo.API.Animals
                 await File.WriteAllTextAsync(AnimalDbConst.JsonFilePath, jsonArray);
                 await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
             }
+            else if (File.Exists(AnimalDbConst.JsonFilePath) && File.Exists(AnimalDbConst.JsonEncryptedFilePath))
+            {
+                File.Delete(AnimalDbConst.JsonFilePath);
+            }
+            else if (File.Exists(AnimalDbConst.JsonFilePath))
+            {
+                await AnimalsHelper.EncryptFile(AnimalDbConst.JsonFilePath, AnimalDbConst.JsonEncryptedFilePath);
+            }
+
+            return Task.CompletedTask;
         }
 
         public static async Task<List<BaseAnimal>> GetAnimals()
@@ -52,7 +62,7 @@ namespace Zoo.API.Animals
             }
         }
 
-        public static async void UpdateAnimals(List<BaseAnimal> animals)
+        public static async Task<Task> UpdateAnimals(List<BaseAnimal> animals)
         {
             try
             {
@@ -79,35 +89,39 @@ namespace Zoo.API.Animals
                 Console.WriteLine(e);
                 throw;
             }
+
+            return Task.CompletedTask;
         }
 
-        public static List<BaseAnimal> GetAnimalsOfType<T>(T type)
+        public static async Task<List<BaseAnimal>> GetAnimalsOfType<T>(T type)
         {
-            var allAnimals = GetAnimals().Result;
+            var allAnimals = (await GetAnimals());
 
             var desiredAnimalTypeList = allAnimals.FindAll(s => s.GetType().Name == type.GetType().Name);
 
             return desiredAnimalTypeList;
         }
 
-        public static void AddAnimal(BaseAnimal animal)
+        public static async Task<Task> AddAnimal(BaseAnimal animal)
         {
-            var allAnimals = GetAnimals().Result;
+            var allAnimals = await GetAnimals();
             allAnimals.Add(animal);
-            UpdateAnimals(allAnimals);
+            await UpdateAnimals(allAnimals);
+
+            return Task.CompletedTask;
         }
 
-        public static List<BaseAnimal> GetAliveAnimals(BaseAnimal filterType)
+        public static async Task<List<BaseAnimal>> GetAliveAnimals(BaseAnimal filterType)
         {
             List<BaseAnimal> animals;
 
             if (filterType != null)
             {
-                animals = GetAnimalsOfType(filterType);
+                animals = await GetAnimalsOfType(filterType);
             }
             else
             {
-                animals = GetAnimals().Result;
+                animals = await GetAnimals();
             }
 
             animals = animals.FindAll(a => a.GetEnergy() > 0);
@@ -115,17 +129,17 @@ namespace Zoo.API.Animals
             return animals;
         }
 
-        public static List<BaseAnimal> GetDeadAnimals(BaseAnimal filterType)
+        public static async Task<List<BaseAnimal>> GetDeadAnimals(BaseAnimal filterType)
         {
             List<BaseAnimal> animals;
 
             if (filterType != null)
             {
-                animals = GetAnimalsOfType(filterType);
+                animals = await GetAnimalsOfType(filterType);
             }
             else
             {
-                animals = GetAnimals().Result;
+                animals = await GetAnimals();
             }
 
             animals = animals.FindAll(a => a.GetEnergy() <= 0);
@@ -133,10 +147,8 @@ namespace Zoo.API.Animals
             return animals;
         }
 
-        public static void RemoveDeadAnimals()
+        public static async Task<Task> RemoveDeadAnimals(List<BaseAnimal> deadAnimals)
         {
-            List<BaseAnimal> deadAnimals = GetDeadAnimals(null);
-
             foreach (var deadAnimal in deadAnimals)
             {
                 List<BaseAnimal> animals = GetAnimals().Result;
@@ -148,8 +160,22 @@ namespace Zoo.API.Animals
                         break;
                     }
                 }
-                UpdateAnimals(animals);
+                await UpdateAnimals(animals);
             }
+
+            return Task.CompletedTask;
+        }
+
+        public static async Task<Task> AnimalEnergyUser(List<BaseAnimal> animalList)
+        {
+            foreach (var animal in animalList)
+            {
+                animal.UseEnergy();
+            }
+
+            await UpdateAnimals(animalList);
+
+            return Task.CompletedTask;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Zoo.Models.Animals;
 
 namespace Zoo.Helper.Animals
 {
