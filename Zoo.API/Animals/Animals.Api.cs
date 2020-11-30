@@ -110,6 +110,8 @@ namespace Zoo.API.Animals
                 animals = GetAnimals().Result; 
             }
 
+            animals = animals.FindAll(a => a.GetEnergy() > 0);
+
             return animals;
         }
     }
