@@ -19,11 +19,13 @@ namespace Zoo
         private void Label_Loaded(object sender, RoutedEventArgs e)
         {
             AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
+            AnimalsApi.AddAnimal(new Monkey(AnimalsApi.GetAnimalsOfType(new Monkey()).Count()));
             AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
             AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
             AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
-            AnimalsApi.AddAnimal(new Lion(AnimalsApi.GetAnimalsOfType(new Lion()).Count()));
-            var animals = AnimalsApi.GetAnimals().Result;
+            var animals = AnimalsApi.GetAllAliveAnimals(null);
+            var animals2 = AnimalsApi.GetAllAliveAnimals(new Monkey());
+
             Label.Content = animals.Count();
         }
     }
